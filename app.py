@@ -26,7 +26,6 @@ def index():
 
 @app.route('/post-login', methods=['get','post'])
 def login():
-    titre = request.form['titre']
     sujet = request.form['sujet']
     type = request.form['type']
     date = request.form['date']
@@ -36,19 +35,24 @@ def login():
     client = request.form['client']
     description = request.form['description']
     doc = Document()
-    doc.add_heading('Cyber Security Innovation – Response Team', 0)
+    section = doc.sections[0]
+    header = section.header
+    paragraph = header.paragraphs[0]
+    paragraph.text = "\tCyber Security Innovation – Response Team"
+    font = paragraph.style.font
+    font.name = 'Hanzel Extended'
+    font.size = Pt(14)
+    font.color.rgb = RGBColor(19, 32, 223)
+
 
     parag = doc.add_paragraph()
 
-    titre1 = parag.add_run('Security Bulletin N°' + client + ' ')
-
+    titre1 = parag.add_run('\t \t \tSecurity Bulletin N°' + client + ' ')
     font = titre1.font
     font.name = 'Cambria (Headings)'
     font.size = Pt(14)
 
-
     titre2 = parag.add_run(type)
-
     font = titre2.font
     font.name = 'Cambria (Headings)'
     font.size = Pt(14)
@@ -83,7 +87,6 @@ def login():
     font.size = Pt(14)
     font.color.rgb = RGBColor(255, 128, 0)
     font.bold = True
-
 
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
@@ -158,5 +161,6 @@ def login():
     font.name = 'Calibri (Body)'
     font.size = Pt(14)
 
-    doc.save(titre+".docx")
-    os.system("start aymen.docx")
+    doc.save("Bulletin_"+client+"-"+type+"_"+date+"_"+numero+"_"+sujet+".docx")
+    os.system("start Bulletin_"+client+"-"+type+"_"+date+"_"+numero+"_"+sujet+".docx")
+    return "Bulletin Crée"
