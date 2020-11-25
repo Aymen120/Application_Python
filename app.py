@@ -6,7 +6,7 @@ import os
 from docx.shared import Pt
 from docx.shared import Inches
 from docx.shared import RGBColor
-
+from werkzeug.utils import redirect
 
 app = Flask(__name__)
 
@@ -56,28 +56,30 @@ def login():
     font = titre2.font
     font.name = 'Cambria (Headings)'
     font.size = Pt(14)
-    font.color.rgb = RGBColor(0, 51, 102)
+
     font.bold = True
 
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
     elif (serv == "Moyenne"):
-        font.color.rgb = RGBColor(0, 51, 102)
+        font.color.rgb = RGBColor(255, 128, 0)
     else:
         font.color.rgb = RGBColor(0, 153, 0)
+
+
 
     titre3 = parag.add_run('-')
     font = titre3.font
     font.name = 'Cambria (Headings)'
     font.size = Pt(14)
-    font.color.rgb = RGBColor(255, 128, 0)
+
     font.bold = True
 
 
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
     elif (serv == "Moyenne"):
-        font.color.rgb = RGBColor(0, 51, 102)
+        font.color.rgb = RGBColor(255, 51, 102)
     else:
         font.color.rgb = RGBColor(0, 153, 0)
 
@@ -91,15 +93,22 @@ def login():
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
     elif (serv == "Moyenne"):
-        font.color.rgb = RGBColor(0, 51, 102)
+        font.color.rgb = RGBColor(255, 128, 0)
     else:
         font.color.rgb = RGBColor(0, 153, 0)
 
+    parag.add_run('\n')
+
     titre5 = parag.add_run('Sujet: '+sujet+'\n')
+    if " " in sujet:
+        sujet = sujet.replace(" ","_")
     font = titre5.font
     font.name = 'Calibri (Body)'
     font.size = Pt(14)
     font.bold = True
+
+
+
 
     titre6 = parag.add_run("Référence:")
     font = titre6.font
@@ -111,12 +120,12 @@ def login():
     font = titre7.font
     font.name = 'Calibri (Body)'
     font.size = Pt(16)
-    font.color.rgb = RGBColor(255, 128, 0)
+
     font.bold = True
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
     elif (serv == "Moyenne"):
-        font.color.rgb = RGBColor(0, 51, 102)
+        font.color.rgb = RGBColor(255, 128, 0)
     else:
         font.color.rgb = RGBColor(0, 153, 0)
 
@@ -130,12 +139,12 @@ def login():
     font = titre9.font
     font.name = 'Liberation Serif'
     font.size = Pt(16)
-    font.color.rgb = RGBColor(255, 128, 0)
+
     font.bold = True
     if (serv == "Elévé"):
         font.color.rgb = RGBColor(255, 0, 0)
     elif (serv == "Moyenne"):
-        font.color.rgb = RGBColor(0, 51, 102)
+        font.color.rgb = RGBColor(255, 128, 0)
     else:
         font.color.rgb = RGBColor(0, 153, 0)
 
@@ -148,7 +157,7 @@ def login():
     titre11 = parag.add_run(description + '\n')
     font = titre11.font
     font.name = 'Calibri (Body)'
-    font.size = Pt(14)
+    font.size = Pt(12)
 
     titre12 = parag.add_run('Source: \n')
     font = titre12.font
@@ -159,8 +168,9 @@ def login():
     titre13 = parag.add_run(source)
     font = titre13.font
     font.name = 'Calibri (Body)'
-    font.size = Pt(14)
+    font.size = Pt(12)
 
     doc.save("Bulletin_"+client+"-"+type+"_"+date+"_"+numero+"_"+sujet+".docx")
-    os.system("start Bulletin_"+client+"-"+type+"_"+date+"_"+numero+"_"+sujet+".docx")
-    return "Bulletin Crée"
+
+    os.system("start Bulletin_" + client + "-" + type + "_" + date + "_" + numero + "_" + sujet + ".docx")
+    return render_template('index.html')
