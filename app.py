@@ -273,7 +273,7 @@ def rapport():
     font.size = Pt(14)
     font.bold = True
 
-    titre14 = parag.add_run("Source :\n")
+    titre14 = parag.add_run(recommandation)
     font = titre14.font
     font.name = 'Calibri (Body)'
     font.size = Pt(12)
